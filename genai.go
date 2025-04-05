@@ -11,7 +11,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-const basePrompt = `You're a professional and experienced developer and open source contributor in different technologies. Create a first release README document for these files. The target audience is professional developers with one to three years of experience building full-stack projects.
+const basePrompt = `You're a professional, experienced developer and open source contributor in different technologies. Create a first release README document for these files. The target audience is professional developers with one to three years of experience building full-stack projects.
 
 - Include a description
 - A list of interesting techniques the code uses in the files provided. When possible link to MDN documentation as part of the text of the technique.
@@ -41,7 +41,7 @@ func getResponse(prompt string) string {
 	}
 	defer client.Close()
 
-	model := client.GenerativeModel("gemini-1.5-flash")
+	model := client.GenerativeModel("gemini-2.0-flash-lite")
 	prompt = basePrompt + "\n\n" + prompt
 	//log.Println(prompt)
 	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
