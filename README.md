@@ -1,52 +1,58 @@
-# GenAI: A Simple Generative AI Image App
+# go-readme: Simple Readme and License Generator
 
-This project is a basic demonstration of generating images using a generative AI model (details below). It's designed to be a simple, understandable example for developers familiar with Go and web development basics.  This is the first release, and we're eager to get your feedback!
+## Description
 
+`go-readme` is a simple Go terminal application for readme and license generation (MIT License) with the [Gemini API](https://deepmind.google/technologies/gemini/). This project serves as a starting point for developers looking for a lightweight CLI application to generate the initial documentation for any project. Future releases will expand on this foundation.
 
-## Interesting Techniques
+## Technologies and Libraries
 
-* **Go Web Development:** The project uses Go's `net/http` package to create a simple web server.  [Learn more about `net/http` on MDN](https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Setup) (Note: MDN doesn't have dedicated Go docs, this links to general server-side concepts).
-* **Environment Variables:** Configuration is managed using environment variables loaded from a `.env` file ([`.env`](./.env)). This allows for easy changes without modifying the code.
-* **Go Modules:** The project uses Go modules for dependency management.  The `go.mod` and `go.sum` files manage project dependencies.
-
-
-## Non-Obvious Technologies/Libraries
-
-This project currently doesn't use any complex external libraries beyond the standard Go library.  Future releases may include integrations with specific image generation APIs.
-
+*   **`Go (Standard Library)`:** The project primarily uses the Go standard library.
+*   **`go-dotenv`:** The project uses the `go-dotenv` library to load environment variables from `.env` file. [go-dotenv](https://github.com/joho/godotenv)
 
 ## Project Structure
 
 ```
-├── go.mod
-├── go.sum
+.
 ├── .env
+├── .git
+├── .gitignore
 ├── LICENSE
 ├── README.md
-├── genai.go
 ├── directoryTree.go
-├── main.go
+├── genai.go
+├── go.mod
+└── go.sum
 ```
 
-* **`genai.go`**: Contains the core logic for interacting with the generative AI model (currently a placeholder).  This will be expanded in future releases.
-* **`directoryTree.go`**: (If implemented)  This file would contain code to dynamically generate the directory structure (similar to what is done here in the README).
-* **`.env`**: Stores environment variables (API keys, etc.).  Keep this file out of version control!
-
+*   `.env`:  This file contains environment variables used by the application.  (Note: This file *should not* be committed to version control in a production environment; it's included here for demonstration.)
+*   `.git`: This directory contains all the version control information, used by git.
+*   `.gitignore`: Specifies intentionally untracked files that Git should ignore.
+*   `genai.go`: Contains the main application logic.
+*   `directoryTree.go`: Shows the project's directory structure.
+*   `go.mod`:  Go module file for dependency management.
+*   `go.sum`:  Go module checksum file.
 
 ## How to Use
 
-1. **Clone the repository:** `git clone <repository_url>`
-2. **Install Go:** Make sure you have Go installed on your system. [Download Go](https://go.dev/dl/)
-3. **Install dependencies:** `go mod tidy`
-4. **Set environment variables:** Create a `.env` file and populate it with any necessary API keys or configuration settings (if required in future releases).  The structure of the `.env` file will be documented in future releases if needed.
-5. **Run the application:** `go run main.go`
+1.  **Prerequisites:** Ensure you have Go installed on your system.  You can download it from the official Go website: [https://go.dev/](https://go.dev/)
 
+2.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/raziel-aleman/go-readme.git
+    cd go-readme
+    ```
 
-## Contributing
+3.  **Install Dependencies:**
+    ```bash
+    go mod tidy
+    ```
 
-Contributions are welcome! Please open an issue or submit a pull request.
+4.  **Create `.env` File:**  Create a `.env` file in the root directory and add your Gemini API key.  For example:
+    ```
+    GEMINI_API_KEY=your_api_key
+    ```
 
-## License
-
-[MIT License](./LICENSE)
-
+5.  **Run the Application:**
+    ```bash
+    go run . <path-to-project-root-directory> 'author-name'
+    ```

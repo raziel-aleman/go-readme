@@ -15,7 +15,7 @@ const basePrompt = `You're a professional, experienced developer and open source
 
 - Include a description
 - A list of interesting techniques the code uses in the files provided. When possible link to MDN documentation as part of the text of the technique.
-- A list of non-obvious technologies or libraries used in the code that would be of interest to professional developers with medium level experience.
+- A list of technologies or libraries used in the code that would be of interest to professional developers with medium level experience, otherwise indicate if the project only uses the standard library for the respective programming language or framework.
 - Make sure you add links to external libraries, including links to any specific fonts used.
 - A breakdown of the project structure as a directory list code block: Include directories like any images directories or subfolders implied by the code, but not individual files unless they're in the root directory. Add a short description of any interesting directories underneath the code block
 - If you mention a file or directory in the description, link to the file using relative links assuming you're in the root directory of the repo.
@@ -43,15 +43,12 @@ func getResponse(prompt string) string {
 
 	model := client.GenerativeModel("gemini-2.0-flash-lite")
 	prompt = basePrompt + "\n\n" + prompt
-	//log.Println(prompt)
 	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	response := fmt.Sprintln(resp.Candidates[0].Content.Parts[0])
-	//fmt.Println(response)
 
-	//fmt.Println(resp.Candidates[0].Content.Parts[0])
 	return response
 }

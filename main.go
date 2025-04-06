@@ -8,13 +8,17 @@ import (
 )
 
 func main() {
-	// Get directory path from arguments
+	// Get arguments
 	args := os.Args
 	if len(args) == 1 {
-		fmt.Println("path is missing")
+		fmt.Println("root directory is missing")
+		os.Exit(2)
+	} else if len(args) == 2 {
+		fmt.Println("author name is missing")
 		os.Exit(2)
 	}
 	dir := args[1]
+	author := args[2]
 
 	// Year for license
 	year := time.Now().Year()
@@ -22,7 +26,7 @@ func main() {
 	// MIT license
 	var license = `MIT License
 
-Copyright (c) ` + strconv.Itoa(year) + ` Raziel Ali Aleman Ramos
+Copyright (c) ` + strconv.Itoa(year) + " " + author + `
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
