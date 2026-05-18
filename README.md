@@ -1,109 +1,105 @@
-````markdown
-# go-readme: AI-Powered Readme and License Generator
+# go-readme
 
 ## Project Overview
 
-`go-readme` is a command-line application built in Go designed to automate the initial documentation process for projects. It generates an MIT License file and a comprehensive `README.md` by leveraging the Google Gemini API. This tool analyzes the project's directory structure and the content of its files to produce accurate and detailed documentation, significantly reducing manual effort during project setup. It aims to provide a solid foundation for new projects, making it easier for developers to quickly set up and document their repositories.
+This Go application serves as a powerful utility for automating the generation of `LICENSE` and `README.md` files for any given project directory. It dynamically constructs an MIT license, incorporating the specified author's name and the current year. Following this, the application intelligently analyzes the project's directory structure and the full contents of its files. Leveraging the Google Gemini 2.5 Flash generative AI model, it synthesizes a comprehensive and accurate `README.md` file based on this analysis, adhering to specific guidelines for content, structure, and detail. This streamlines the documentation process for developers, ensuring up-to-date and relevant project information.
 
 ## Key Features
 
-- **Automated MIT License Generation**: The application generates an `MIT LICENSE` file, dynamically populating it with the current year and the provided author's name. This ensures consistency and proper licensing from the start.
-- **AI-Driven README Content Creation**: By integrating with the [Google Gemini API](https://deepmind.google/technologies/gemini/), `go-readme` intelligently analyzes the codebase and directory structure to produce rich, context-aware `README.md` content.
-- **Dynamic Project Analysis**: It reads and processes the full contents of all files within the specified project directory, ensuring that the generated README accurately reflects the project's purpose, features, and technical details.
-- **Structured Directory Tree Inclusion**: The tool automatically generates a visual representation of the project's directory structure, embedding it directly into the `README.md` to enhance clarity and navigability.
+- ✅ **Dynamic License Generation**: Automatically creates an MIT `LICENSE` file, personalized with the provided author's name and the current year.
+- ✅ **Project Structure Analysis**: Recursively scans and generates a detailed ASCII tree representation of the target project's directory structure.
+- ✅ **Comprehensive File Content Integration**: Reads and incorporates the full content of all project files (excluding sensitive files like `.env` and `.git` internals) as context for AI generation.
+- ✅ **AI-Powered README Generation**: Utilizes the Google Gemini 2.5 Flash model to generate a high-quality `README.md` with sections like project overview, features, tech stack, environment variables, installation, usage examples, and testing.
+- ✅ **Contextual & Accurate Output**: Ensures the generated `README.md` is highly accurate and directly reflects the codebase, avoiding generic placeholders and hallucination.
 
 ## Tech Stack & Dependencies
 
-- **Go (Standard Library 1.24)**: The entire application is developed using Go, primarily relying on its standard library for file system operations, string manipulation, and command-line argument handling.
-- **`github.com/google/generative-ai-go`**: This is the official Go client library for interacting with Google's Generative AI services, including the Gemini models, facilitating the AI-powered content generation.
-- **`github.com/joho/godotenv`**: Used for loading environment variables from a `.env` file, allowing for flexible and secure management of API keys and other configurations.
-- **`google.golang.org/api`**: A comprehensive Go client for Google APIs, providing underlying support for various Google services.
-- **`google.golang.org/genai`**: A more direct and specialized client for the Google Gemini API, enabling fine-grained control over model interactions.
+This project is built using Go and relies on several external libraries for its functionality.
+
+- **Language:** Go (go 1.24)
+- **Go Modules:**
+
+| Module                     | Purpose                                       |
+| :------------------------- | :-------------------------------------------- |
+| `github.com/joho/godotenv` | Loads environment variables from `.env` files |
+| `google.golang.org/genai`  | Interacts with the Google Gemini API          |
+
+- **Indirect Dependencies:**
+  - `cloud.google.com/go`
+  - `cloud.google.com/go/auth`
+  - `cloud.google.com/go/compute/metadata`
+  - `github.com/golang/groupcache`
+  - `github.com/google/go-cmp`
+  - `github.com/google/s2a-go`
+  - `github.com/googleapis/enterprise-certificate-proxy`
+  - `github.com/gorilla/websocket`
+  - `go.opencensus.io`
+  - `golang.org/x/crypto`
+  - `golang.org/x/net`
+  - `golang.org/x/sys`
+  - `golang.org/x/text`
+  - `google.golang.org/genproto/googleapis/rpc`
+  - `google.golang.org/grpc`
+  - `google.golang.org/protobuf`
 
 ## Environment Variables & Configuration
 
-The application requires a single environment variable to function correctly.
+This application requires the following environment variable, typically configured in a `.env` file at the root of the project:
 
-| Variable Name    | Purpose                                                     | Expected Data Type |
-| :--------------- | :---------------------------------------------------------- | :----------------- |
-| `GEMINI_API_KEY` | Your API key for authenticating with the Google Gemini API. | String             |
+| Variable Name    | Type   | Purpose                                                  |
+| :--------------- | :----- | :------------------------------------------------------- |
+| `GEMINI_API_KEY` | string | Your API key for accessing the Google Gemini AI service. |
 
 ## Installation & Setup
 
-1.  **Prerequisites:**
-    - Ensure you have Go installed on your system. You can download the latest version from the [official Go website](https://go.dev/dl/).
-    - Obtain a `GEMINI_API_KEY` from the [Google AI Studio](https://makersuite.google.com/app/apikey) or Google Cloud Console.
+Follow these steps to set up and run the project locally:
 
-2.  **Clone the Repository:**
+1.  **Clone the repository:**
 
     ```bash
     git clone https://github.com/raziel-aleman/go-readme.git
     cd go-readme
     ```
 
-3.  **Install Dependencies:**
+2.  **Install Go dependencies:**
 
     ```bash
     go mod tidy
     ```
 
-4.  **Create `.env` File:**
-    In the root directory of the cloned repository, create a file named `.env` and add your Gemini API key:
+3.  **Create a `.env` file:**
+    Create a new file named `.env` in the root directory and add your Gemini API key:
+
     ```
-    GEMINI_API_KEY=your_actual_gemini_api_key
+    GEMINI_API_KEY=YOUR_GEMINI_API_KEY
     ```
-    Replace `your_actual_gemini_api_key` with the key you obtained. This file is excluded from version control by `.gitignore`.
+
+    Replace `YOUR_GEMINI_API_KEY` with your actual API key.
+
+4.  **Build the application:**
+    ```bash
+    go build -o generate-readme cmd/app/main.go
+    ```
 
 ## Usage Examples
 
-To generate a `README.md` and `LICENSE` file for a project, navigate to the `go-readme` project's root directory and run the application with two arguments: the path to the target project's root directory and the author's name.
+The `generate-readme` executable takes two command-line arguments: the target root directory for analysis and the author's name for the LICENSE file.
 
-**Example 1: Generating documentation for the current `go-readme` project itself**
+1.  **Generate `LICENSE` and `README.md` for the current directory:**
+    To analyze the current directory and generate the files with "John Doe" as the author:
 
-```bash
-go run . . "Raziel Aleman Ramos"
-```
-````
+    ```bash
+    ./generate-readme . "John Doe"
+    ```
 
-This command will create (or overwrite) `LICENSE` and `README.md` files in the current directory (`.`), using "Raziel Aleman Ramos" as the copyright holder.
+2.  **Generate `LICENSE` and `README.md` for a specified project directory:**
+    To analyze `/path/to/your/project` and generate the files with "Jane Smith" as the author:
+    ```bash
+    ./generate-readme /path/to/your/project "Jane Smith"
+    ```
 
-**Example 2: Generating documentation for another project located at `/path/to/my/new-project`**
-
-```bash
-go run . /path/to/my/new-project "Jane Doe"
-```
-
-This will create (or overwrite) `LICENSE` and `README.md` files in `/path/to/my/new-project`, attributing the license to "Jane Doe".
+Upon successful execution, a `LICENSE` file (MIT license) and a `README.md` file (generated by Gemini) will be created in the specified root directory.
 
 ## Testing
 
-This project does not include a dedicated unit or integration test suite. The core functionality, which involves interacting with the file system and external API, is typically verified through manual execution and inspection of the generated output. Users are encouraged to run the application as described in the Usage Examples and verify the contents of the generated `LICENSE` and `README.md` files.
-
-## Project Structure
-
-```
-.
-├── .env
-├── .git/
-├── .gitignore
-├── LICENSE
-├── README.md
-├── directoryTree.go
-├── genai.go
-├── go.mod
-└── go.sum
-```
-
-- **`.env`**: This file stores sensitive configuration data, such as the `GEMINI_API_KEY`, and is loaded at runtime. It is configured to be ignored by Git to prevent accidental exposure.
-- **`.git/`**: The standard Git repository directory, containing all version control information and metadata for the project.
-- **`.gitignore`**: Specifies files and directories that Git should intentionally ignore, such as `.env` and OS-specific files like `.DS_Store`.
-- **`LICENSE`**: The generated MIT License file, which is created by the `main.go` application during its execution.
-- **`README.md`**: The primary documentation file for the project, automatically generated by `main.go` using content provided by the Gemini API.
-- **`directoryTree.go`**: Contains the Go logic responsible for recursively traversing a given directory path and generating a formatted string representation of its file and folder structure.
-- **`genai.go`**: Houses the Go functions that handle the communication with the Google Gemini API, including loading the API key and sending prompts for content generation.
-- **`go.mod`**: The Go module definition file, which specifies the project's module path and manages its direct and indirect dependencies.
-- **`go.sum`**: A checksum file automatically maintained by Go modules to ensure the integrity and authenticity of downloaded dependencies.
-
-```
-
-```
+Based on the provided file structure and contents, there are no explicit test suites or testing commands defined within the repository.
